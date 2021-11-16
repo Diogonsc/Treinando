@@ -8,11 +8,39 @@
           <q-icon name="fas fa-user" />
         </template>
       </q-input>
-      <q-input color="purple-12" v-model="nascimento" label="Data Nascimento">
-        <template v-slot:prepend>
-          <q-icon name="fas fa-calendar-alt" />
-        </template>
-      </q-input>
+     <q-input
+					outlined
+					color="grey-6"
+					v-model="date"
+					mask="date"
+					:rules="['date']"
+					class="col"
+					label-slot
+				>
+					<template v-slot:label>
+						<span class="generic-label">Data Final</span>
+					</template>
+					<template v-slot:append>
+						<q-icon name="event" class="cursor-pointer">
+							<q-popup-proxy
+								ref="qDateProxy"
+								transition-show="scale"
+								transition-hide="scale"
+							>
+								<q-date v-model="date">
+									<div class="row items-center justify-end">
+										<q-btn
+											v-close-popup
+											label="Close"
+											color="primary"
+											flat
+										/>
+									</div>
+								</q-date>
+							</q-popup-proxy>
+						</q-icon>
+					</template>
+				</q-input>
       <q-input color="purple-12" v-model="cpf" label="CPF">
         <template v-slot:prepend>
           <q-icon name="fas fa-id-card" />
@@ -68,6 +96,7 @@ import { useQuasar } from 'quasar'
 export default {
   setup () {
     const $q = useQuasar()
+    date: string = '2019/02/01';
     return {
       triggerPositive () {
         $q.notify({
@@ -91,7 +120,8 @@ export default {
       bairro: ref(''),
       cidade: ref(''),
       escolaridade: ref(''),
-      profissao: ref('')
+      profissao: ref(''),
+      date: ref(''),
     }
   }
 }
